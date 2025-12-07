@@ -98,7 +98,7 @@ if __name__ == "__main__":
     print(f"Test 1 (Gofret + Fındık): {sonuc1['baslik']}")
     
     # Test 2: Temiz olması gereken bir durum.
-    sonuc2 = analiz_et("Coca-Cola Zero", "Süt")
-    print(f"Test 2 (Cola + Süt): {sonuc2['baslik']}")
+    sonuc2 = analiz_et("Coca-Cola Zero", "aroma")
+    print(f"Test 2 (Cola + aroma): {sonuc2['baslik']}")
 
     print("--- TEST BİTTİ ---")
