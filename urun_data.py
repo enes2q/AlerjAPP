@@ -1,59 +1,203 @@
-# urun_data.py
-# Projedeki tüm ürünler ve içindekiler listesi burada tutuluyor.
 
-urunler = {
-    "Ulker Cikolatalı Gofret": "Şeker, süt tozu, fındık, kakao kitlesi, buğday unu (gluten), bitkisel yağ, emülgatör (lesitin), E330",
 
-    "Eti Form Kepekli Biskuvi": "Tam buğday unu (gluten), bitkisel yağ, şeker, tuz, kabartıcılar (E500, E503), koruyucu (E202)",
 
-    "Coca-Cola Zero": "Karbonatlı su, renklendirici (E150d), tatlandırıcı (E951), asit düzenleyici (E338), aroma vericiler",
 
-    "Fanta Portakal": "Karbonatlı su, şeker, asitlik düzenleyici (E330), renklendirici, doğal aroma, stabilizör (E414)",
+urunler_listesi = [
+    
 
-    "Red Bull Enerji Icecegi": "Su, sakaroz, glukoz, asitlik düzenleyici (sitrik asit), taurin, aroma vericiler, vitaminler (B3, B5, B6, B12), kafein",
+    {
+        "id": 1,
+        "ad": "Ülker Çikolatalı Gofret",
+        "icindekiler": ["şeker", "süt tozu", "fındık", "kakao kitlesi", "buğday unu", "gluten", "bitkisel yağ", "lesitin", "E330"],
+        "eser_miktar": []
+    },
 
-    "Nestle Damak": "Şeker, fıstık, kakao yağı, kakao kitlesi, süt tozu, emülgatör (lesitin)",
+    {
+        "id": 2,
+        "ad": "Eti Form Kepekli Bisküvi",
+        "icindekiler": ["tam buğday unu", "gluten", "bitkisel yağ", "şeker", "tuz", "E500", "E503", "E202"],
+        "eser_miktar": []
+    },
 
-    "Ulker Biskrem": "Buğday unu (gluten), şeker, bitkisel yağ, kakao tozu, glikoz şurubu, süt tozu, kabartıcılar (E500, E503)",
+    {
+        "id": 3,
+        "ad": "Coca-Cola Zero",
+        "icindekiler": ["karbonatlı su", "E150d", "E951", "E338", "aroma"],
+        "eser_miktar": []
+    },
 
-    "Eti Tutku": "Buğday unu (gluten), şeker, kakao tozu, bitkisel yağ, glikoz-fruktoz şurubu, süt tozu, kabartıcı (E500)",
+    {
+        "id": 4,
+        "ad": "Fanta Portakal",
+        "icindekiler": ["karbonatlı su", "şeker", "E330", "renklendirici", "doğal aroma", "E414"],
+        "eser_miktar": []
+    },
 
-    "Nescafe 3u1 Arada": "Şeker, kahve kreması (süt türevi), çözünebilir kahve, aroma vericiler",
+    {
+        "id": 5,
+        "ad": "Red Bull Enerji İçeceği",
+        "icindekiler": ["su", "sakaroz", "glukoz", "sitrik asit", "taurin", "aroma", "B3", "B5", "B6", "B12", "kafein"],
+        "eser_miktar": []
+    },
 
-    "Cappy Portakal Suyu": "Su, portakal suyu konsantresi, şeker, asitlik düzenleyici (E330), aroma",
+    {
+        "id": 6,
+        "ad": "Nestle Damak",
+        "icindekiler": ["şeker", "fıstık", "kakao yağı", "kakao kitlesi", "süt tozu", "lesitin"],
+        "eser_miktar": ["fındık"]
+    },
 
-    "Pınar Süt Tam Yağlı": "İnek sütü, vitamin D",
+    {
+        "id": 7,
+        "ad": "Ülker Biskrem",
+        "icindekiler": ["buğday unu", "gluten", "şeker", "bitkisel yağ", "kakao tozu", "glikoz şurubu", "süt tozu", "E500", "E503"],
+        "eser_miktar": []
+    },
 
-    "Sırma Soda Limon": "Doğal mineralli su, karbondioksit, limon aroması",
+    {
+        "id": 8,
+        "ad": "Eti Tutku",
+        "icindekiler": ["buğday unu", "gluten", "şeker", "kakao tozu", "bitkisel yağ", "glikoz-fruktoz şurubu", "süt tozu", "E500"],
+        "eser_miktar": []
+    },
 
-    "Lay's Klasik Patates Cipsi": "Patates, ayçiçek yağı, tuz",
+    {
+        "id": 9,
+        "ad": "Nescafe 3'ü 1 Arada",
+        "icindekiler": ["şeker", "kahve kreması", "süt türevi", "çözünebilir kahve", "aroma"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Doritos Nacho": "Mısır unu, bitkisel yağ, peynir aroması, baharat karışımı, tuz, renklendirici (E160b)",
+    {
+        "id": 10,
+        "ad": "Cappy Portakal Suyu",
+        "icindekiler": ["su", "portakal suyu konsantresi", "şeker", "E330", "aroma"],
+        "eser_miktar": []
+    },
 
-    "Ruffles Original": "Patates, ayçiçek yağı, tuz",
+    {
+        "id": 11,
+        "ad": "Pınar Süt Tam Yağlı",
+        "icindekiler": ["inek sütü", "vitamin D"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Tadım Kavrulmuş Fındık": "Fındık",
+    {
+        "id": 12,
+        "ad": "Sırma Soda Limon",
+        "icindekiler": ["doğal mineralli su", "karbondioksit", "limon aroması"],
+        "eser_miktar": []
+    },
 
-    "Ülker Hanımeller": "Buğday unu (gluten), şeker, bitkisel yağ, süt tozu, glikoz şurubu, kabartıcı (E500)",
+    {
+        "id": 13,
+        "ad": "Lay's Klasik Patates Cipsi",
+        "icindekiler": ["patates", "ayçiçek yağı", "tuz"],
+        "eser_miktar": []
+    },
 
-    "Eti Browni Gold": "Şeker, buğday unu (gluten), bitkisel yağ, kakao, glikoz şurubu, kabartıcı (E500), süt tozu",
+    {
+        "id": 14,
+        "ad": "Doritos Nacho",
+        "icindekiler": ["mısır unu", "bitkisel yağ", "peynir aroması", "baharat karışımı", "tuz", "E160b"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Coca-Cola Classic": "Karbonatlı su, şeker, renklendirici (E150d), asit düzenleyici (E338), aroma vericiler, kafein",
+    {
+        "id": 15,
+        "ad": "Ruffles Original",
+        "icindekiler": ["patates", "ayçiçek yağı", "tuz"],
+        "eser_miktar": []
+    },
 
-    "Fuse Tea Şeftali": "Su, şeker, siyah çay ekstraktı, aroma vericiler, asit düzenleyici (E330)",
+    {
+        "id": 16,
+        "ad": "Tadım Kavrulmuş Fındık",
+        "icindekiler": ["fındık"],
+        "eser_miktar": ["fındık"]
+    },
 
-    "Mis Süt Laktozsuz": "İnek sütü, laktaz enzimi, vitamin D",
+    {
+        "id": 17,
+        "ad": "Ülker Hanımeller",
+        "icindekiler": ["buğday unu", "gluten", "şeker", "bitkisel yağ", "süt tozu", "glikoz şurubu", "E500"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Kinder Bueno": "Sütlü krema, şeker, buğday unu (gluten), bitkisel yağ, fındık, kakao, lesitin (E322)",
+    {
+        "id": 18,
+        "ad": "Eti Browni Gold",
+        "icindekiler": ["şeker", "buğday unu", "gluten", "bitkisel yağ", "kakao", "glikoz şurubu", "E500", "süt tozu"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Snickers Bar": "Şeker, yer fıstığı, glikoz şurubu, süt tozu, kakao yağı, kakao kitlesi, tuz, emülgatör (E476)",
+    {
+        "id": 19,
+        "ad": "Coca-Cola Classic",
+        "icindekiler": ["karbonatlı su", "şeker", "E150d", "E338", "aroma", "kafein"],
+        "eser_miktar": []
+    },
 
-    "İçim Yoğurt": "Pastörize inek sütü, yoğurt kültürü",
+    {
+        "id": 20,
+        "ad": "Fuse Tea Şeftali",
+        "icindekiler": ["su", "şeker", "siyah çay ekstraktı", "aroma", "E330"],
+        "eser_miktar": []
+    },
 
-    "Torku Banada": "Şeker, bitkisel yağ, fındık, kakao tozu, süt tozu, emülgatör (lesitin)",
+    {
+        "id": 21,
+        "ad": "Mis Süt Laktozsuz",
+        "icindekiler": ["inek sütü", "laktaz enzimi", "vitamin D"],
+        "eser_miktar": ["süt"]
+    },
 
-    "Nestle Corn Flakes": "Mısır, şeker, arpa malt özü (gluten), tuz, vitamin ve mineraller",
+    {
+        "id": 22,
+        "ad": "Kinder Bueno",
+        "icindekiler": ["sütlü krema", "şeker", "buğday unu", "gluten", "bitkisel yağ", "fındık", "kakao", "lesitin"],
+        "eser_miktar": ["fındık", "süt"]
+    },
 
-    "Nescafe Gold": "100% çözünebilir kahve",
+    {
+        "id": 23,
+        "ad": "Snickers Bar",
+        "icindekiler": ["şeker", "yer fıstığı", "glikoz şurubu", "süt tozu", "kakao yağı", "kakao kitlesi", "tuz", "E476"],
+        "eser_miktar": ["yer fıstığı", "süt"]
+    },
 
-    "Lipton Ice Tea Limon": "Su, şeker,
+    {
+        "id": 24,
+        "ad": "İçim Yoğurt",
+        "icindekiler": ["inek sütü", "yoğurt kültürü"],
+        "eser_miktar": ["süt"]
+    },
+
+    {
+        "id": 25,
+        "ad": "Torku Banada",
+        "icindekiler": ["şeker", "bitkisel yağ", "fındık", "kakao tozu", "süt tozu", "lesitin"],
+        "eser_miktar": ["fındık", "süt"]
+    },
+
+    {
+        "id": 26,
+        "ad": "Nestle Corn Flakes",
+        "icindekiler": ["mısır", "şeker", "arpa malt özü", "gluten", "tuz"],
+        "eser_miktar": ["gluten"]
+    },
+
+    {
+        "id": 27,
+        "ad": "Nescafe Gold",
+        "icindekiler": ["çözünebilir kahve"],
+        "eser_miktar": []
+    },
+
+    {
+        "id": 28,
+        "ad": "Lipton Ice Tea Limon",
+        "icindekiler": ["su", "şeker", "siyah çay", "limon aroması", "E330"],
+        "eser_miktar": []
+    }
+]
