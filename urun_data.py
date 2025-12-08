@@ -149,7 +149,7 @@ urunler_listesi = [
         "id": 21,
         "ad": "Mis Süt Laktozsuz",
         "icindekiler": ["inek sütü", "laktaz enzimi", "vitamin D"],
-        "eser_miktar": ["süt"]
+        "eser_miktar": []
     },
 
     {
