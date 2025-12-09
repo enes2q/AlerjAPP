@@ -23,13 +23,8 @@ def urun_bul(aranan_isim):
             
     # Dongu listenin sonuna kadar gitti ve 'return' calismadiysa urun yok demektir.
     return None
-#BURDAN SONRAKİ YORUMLAR TEKRARDAN DÜZENLENECEK -ENES
+    #BURDAN SONRAKİ YORUMLAR DETAYLANDIRILACAK -ENES 
 def analiz_et(secilen_urun_adi, kullanici_alerjisi):
-    """
-    GOREV: Iki string veriyi alir, analiz eder ve sonuc olarak bir Sozluk (Dictionary) dondurur.
-    """
-    
-    # ADIM 1: VERI ERISIMI
     # Once yukarida yazdigimiz arama fonksiyonunu cagiriyoruz.
     # Bu bize ya bir Sozluk (Dict) doner ya da Bos (None) doner.
     bulunan_urun = urun_bul(secilen_urun_adi)
@@ -42,31 +37,20 @@ def analiz_et(secilen_urun_adi, kullanici_alerjisi):
             "baslik": "Urun Bulunamadi",
             "mesaj": "Sistemde teknik bir aksaklik var veya urun kaydi silinmis."
         }
-
-    # ADIM 2: DATA SANITIZATION (TEMIZLIK)
     # Kullanicidan gelen String verisinin basindaki ve sonundaki bosluklari .strip() ile kirpiyoruz.
     # Aksi takdirde " Fistik " ile "Fistik" eslesmezdi.
     if kullanici_alerjisi:
         alerjen = kullanici_alerjisi.lower().strip()
     else:
         return {"durum": "HATA", "baslik": "Eksik Bilgi", "mesaj": "Lutfen alerjen bilgisini bos birakmayin."}
-    
-    # LIST COMPREHENSION (HIZLI LISTE ISLEME):
     # Asagidaki satirda Python'a ozel bir teknik kullaniyoruz.
     # Dongu kurmak yerine, tek satirda 'icindekiler' dizisindeki tum String'leri kucuk harfe ceviriyoruz.
     # Bu, hafiza ve islemci performansi acisindan klasil dongulerden daha optimize calisir.
     icindekiler_temiz = [x.lower() for x in bulunan_urun["icindekiler"]]
     eser_miktar_temiz = [x.lower() for x in bulunan_urun["eser_miktar"]]
-    
     # Sozluk icinden 'marka' anahtarini (Key) okuyoruz. Yoksa varsayilan deger atiyoruz.
     marka_adi = bulunan_urun.get("marka", "Marka Yok")
-
-
-    # ADIM 3: KARAR MEKANIZMASI (LOGIC FLOW)
-    
-    # KONTROL 1: DIRECT MATCH (Dogrudan Eslesme)
     # 'in' operatoru, bir String'in bir Liste icinde olup olmadigini kontrol eder.
-    # Big-O notasyonuna gore bu islem O(n) karmasikligindadir (Listenin boyutuna gore sure artar).
     for madde in icindekiler_temiz:
         if alerjen in madde:
             # Eger alerjen bulunduysa, fonksiyonu burada bitiriyoruz (Early Return).
@@ -76,8 +60,6 @@ def analiz_et(secilen_urun_adi, kullanici_alerjisi):
                 "baslik": "YASAK! (Tuketmeyin)",
                 "mesaj": f"DIKKAT! **{marka_adi} - {bulunan_urun['ad']}** urununde dogrudan **'{madde}'** bulunmaktadir."
             }
-
-    # KONTROL 2: TRACE AMOUNT (Eser Miktar / Bulasma)
     # Eger yukaridaki donguden ciktiysa demek ki ana listede yok. Simdi ikinci listeye (Array) bakiyoruz.
     for madde in eser_miktar_temiz:
         if alerjen in madde:
@@ -86,8 +68,6 @@ def analiz_et(secilen_urun_adi, kullanici_alerjisi):
                 "baslik": "RISKLI (Eser Miktar)",
                 "mesaj": f"Urun iceriginde yok ama uretim hattindan **'{madde}'** bulasma riski (Eser Miktar) tasimaktadir."
             }
-
-    # KONTROL 3: SAFE STATE (Guvenli Durum)
     # Kod buraya kadar ulastiysa, hicbir `return` calismamis demektir.
     # Yani alerjen hicbir listede bulunamamistir.
     return {
@@ -95,14 +75,9 @@ def analiz_et(secilen_urun_adi, kullanici_alerjisi):
         "baslik": "GUVENLI GORUNUYOR",
         "mesaj": f"Yapilan analizde **{marka_adi} - {bulunan_urun['ad']}** iceriginde **'{alerjen}'** tespit edilmemistir."
     }
-
-
-# ---------------------------------------------------------
-# BOLUM 4: UNIT TESTING (BIRIM TESTLERI)
-# ---------------------------------------------------------
 # Bu blok, dosya baska bir module tarafindan import edilirse CALISMAZ.
 # Sadece dogrudan terminalden calistirildiginda (__main__) devreye girer.
-# Amac: Development (Gelistirme) asamasinda kodu test etmektir.
+# Amac kodu test etmektir.
 
 if __name__ == "__main__":
     print("\n--- DEBUG MODU: TEST BASLIYOR ---\n")
