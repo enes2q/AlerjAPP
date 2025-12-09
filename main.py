@@ -10,7 +10,7 @@ st.write("Ürün seç → Alerjen yaz → Kontrol Et")
 # Ürünleri ismine göre haritalama
 urun_map = {u["ad"]: u for u in urunler_listesi}
 
-# 1. BÖLÜM: ÜRÜN SEÇİMİ
+
 st.subheader("1) Ürün Seçiniz")
 urun_adi = st.selectbox("Market Rafı", list(urun_map.keys()))
 urun = urun_map[urun_adi]
@@ -20,11 +20,11 @@ with st.expander("ℹ️ İçindekiler Bilgisi (Göster)"):
     if urun.get("eser_miktar"):
         st.caption("Eser miktar: " + ", ".join(urun["eser_miktar"]))
 
-# 2. BÖLÜM: ALERJEN GİRİŞİ
+
 st.subheader("2) Alerjen Giriniz")
 alerjen = st.text_input("Alerjen (örn: süt, gluten, fındık)", placeholder="Buraya yazın...")
 
-# 3. BÖLÜM: KONTROL BUTONU
+
 st.subheader("3) Analiz")
 
 if st.button("KONTROL ET 🚀", use_container_width=True):
