@@ -82,7 +82,9 @@ def analiz_et(secilen_urun_adi, kullanici_alerjisi):
 if __name__ == "__main__":
     print("\n--- DEBUG MODU: TEST BASLIYOR ---\n")
     
-    # Test Senaryosu 1
+    #Test
+    #i ile yazıldıgı icin findik yok dendi sonradan düzeltilecek mainde sorun çıkarmadığı ve testte sorun çıkardığı için 
+    #ellemeyebiliriz -Enes
     print("[TEST 1] Ulker Gofret icin Findik taraniyor...")
     sonuc1 = analiz_et("Ulker Cikolatali Gofret", "Findik")
     
