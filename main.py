@@ -1,53 +1,78 @@
 import streamlit as st
-from urun_data import urunler_listesi
+# logic.py dosyasini cagiriyoruz. Burasi uygulamanin beyni (backend) sayilir.
+# Arayuz kodlariyla islem kodlarini ayirmak (Separation of Concerns) yazilim mimarisi acisindan onemlidir.
+# Arayuz sadece gosterir, logic dosyasi ise hesaplar ve veri ceker.
 import logic
 
-st.set_page_config(page_title="Alerjen Kontrol", page_icon="🛒", layout="centered")
+# Sayfanin tarayici sekmesinde gorunecek adini, ikonunu ve genel duzenini ayarliyoruz.
+# layout="centered" parametresi ozellikle mobil cihazlardan girildiginde
+# icerigin ekrana ortalanmasini ve daha duzgun gorunmesini saglar.
+st.set_page_config(page_title="Alerjen Kontrol", page_icon="A", layout="centered")
 
-st.title("🛒 Alerjen Kontrol")
-st.write("Ürün seç → Alerjen yaz → Kontrol Et")
+# Sayfanin ana basligi ve kullaniciyi yonlendiren kisa bir bilgi notu.
+st.title("Alerjen Kontrol")
+st.write("Barkod gir -> Alerjen yaz -> Kontrol et")
 
-# Ürünleri ismine göre haritalama
-urun_map = {u["ad"]: u for u in urunler_listesi}
+# Kullanicidan veri aldigimiz input alanlari.
+# Burayi adim adim numaralandirdik ki kullanici akisi kolay takip edebilsin.
 
-
-st.subheader("1) Ürün Seçiniz")
-urun_adi = st.selectbox("Market Rafı", list(urun_map.keys()))
-urun = urun_map[urun_adi]
-
-with st.expander("ℹ️ İçindekiler Bilgisi (Göster)"):
-    st.write(", ".join(urun.get("icindekiler", [])))
-    if urun.get("eser_miktar"):
-        st.caption("Eser miktar: " + ", ".join(urun["eser_miktar"]))
-
+st.subheader("1) Barkod Giriniz")
+# text_input ile kullanicidan barkod verisini string (metin) olarak aliyoruz.
+# placeholder ile kutunun icine silik bir ornek yazarak kullaniciya ne girmesi gerektigini gosteriyoruz.
+barcode = st.text_input("Barkod", placeholder="Orn: 3017624010701")
 
 st.subheader("2) Alerjen Giriniz")
-alerjen = st.text_input("Alerjen (örn: süt, gluten, fındık)", placeholder="Buraya yazın...")
-
+# Kullanicinin alerjisini soruyoruz. Burasi da serbest metin girisi.
+alerjen = st.text_input("Alerjen (orn: sut, gluten, findik)", placeholder="Buraya yazin...")
 
 st.subheader("3) Analiz")
 
-if st.button("KONTROL ET 🚀", use_container_width=True):
+# Butona basildigi anda altindaki kod blogu calismaya baslar.
+# use_container_width=True sayesinde buton bulundugu alani tam kaplar, mobilde daha kolay tiklanir.
+if st.button("KONTROL ET", use_container_width=True):
     
-    if not alerjen.strip():
-        st.warning("⚠️ Lütfen bir alerjen madde giriniz.")
+    # Input Validation (Giris Kontrolu):
+    # Kullanici bos veri gonderip sistemi yormasin veya hataya sebep olmasin diye on kontrol yapiyoruz.
+    # .strip() metodu, kullanicinin yanlislikla bastaki veya sondaki bosluklara basmasini temizler.
+    if not barcode.strip():
+        st.warning("Lutfen barkod giriniz.")
+    elif not alerjen.strip():
+        st.warning("Lutfen alerjen giriniz.")
     else:
-        # Logic dosyasındaki fonksiyonu çağırıyoruz (Ürün adını yolluyoruz)
-        sonuc = logic.analiz_et(urun_adi, alerjen.strip())
+        # Eger girdiler doluysa logic dosyasindaki analiz fonksiyonunu cagiriyoruz.
+        # Bu fonksiyon internete gidip veriyi cekecek ve bize sonucu getirecek.
+        # Bu islem senkron (sirali) calisir, yani sonuc gelene kadar kod bir alt satira gecmez.
+        sonuc = logic.analiz_et(barcode.strip(), alerjen.strip())
 
-        # Logic'ten gelen cevabı (KIRMIZI, TURUNCU, YESIL) kontrol ediyoruz
+        # Logic dosyasindan donen veriyi (Dictionary yapisini) parcalayip degiskenlere aliyoruz.
+        # .get() kullaniyoruz ki eger sozlukte o anahtar yoksa program patlamasin, None donsun.
+        # Bu, "Defensive Programming" (Savunmaci Programlama) mantigidir.
         durum = sonuc.get("durum")
-        baslik = sonuc.get("baslik")
-        mesaj = sonuc.get("mesaj")
+        baslik = sonuc.get("baslik", "")
+        mesaj = sonuc.get("mesaj", "")
 
+        # Logic tarafindan gelen durum koduna (status code) gore arayuzde farkli renkte kutular gosteriyoruz.
+        # Kullanici metni okumasa bile rengine bakarak sonucu anlayabilmeli (Visual Feedback).
+        
         if durum == "HATA":
-            st.error(f"HATA: {mesaj}")
+            # API baglantisi koparsa veya urun bulunamazsa kirmizi hata mesaji gosteriyoruz.
+            st.error(mesaj)
             
         elif durum == "KIRMIZI":
-            st.error(f"⛔ {baslik}\n\n{mesaj}")
+            # Yasakli madde tespit edildiginde st.error kullanarak dikkat cekici kirmizi bir alan olusturuyoruz.
+            # \n\n karakteri ile baslik ve mesaj arasina bosluk birakarak okunabilirligi artiriyoruz.
+            st.error(baslik + "\n\n" + mesaj)
             
         elif durum == "TURUNCU":
-            st.warning(f"⚠️ {baslik}\n\n{mesaj}")
+            # Eser miktar veya bulasma riski varsa st.warning ile sari/turuncu uyari veriyoruz.
+            # Bu, "Yasak degil ama dikkatli ol" anlamina gelir.
+            st.warning(baslik + "\n\n" + mesaj)
             
         elif durum == "YESIL":
-            st.success(f"✅ {baslik}\n\n{mesaj}")
+            # Herhangi bir risk bulunmadiginda st.success ile yesil onay kutusu gosteriyoruz.
+            st.success(baslik + "\n\n" + mesaj)
+            
+        else:
+            # Eger yukaridaki durumlarin hicbiri degilse (beklenmeyen bir kod gelirse),
+            # st.info ile mavi bir bilgilendirme kutusu gosteriyoruz.
+            st.info("Beklenmeyen durum degeri alindi.")
